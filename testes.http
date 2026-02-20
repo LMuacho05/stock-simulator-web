@@ -1,0 +1,8 @@
+POST http://localhost:8080/buy
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "ticker": "AAPL",
+  "quantity": 2
+}
