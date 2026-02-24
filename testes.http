@@ -1,8 +1,9 @@
+### Teste 1: Tentar comprar quantidade negativa (Forçar Erro 400)
 POST http://localhost:8080/buy
 Content-Type: application/json
 
 {
   "userId": 1,
   "ticker": "AAPL",
-  "quantity": 2
+  "quantity": -5
 }
