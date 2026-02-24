@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.TradeRequest;
 import com.example.demo.repository.StockDAO;
 import com.example.demo.service.MarketService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +20,7 @@ public class StockController {
 
     @GetMapping("/status")
     public String alive() {
-        return "it's alive";
+            return "KEEP WORKING... ;)\n Good Bye :3";
     }
 
     @GetMapping("/balance/{userID}")
@@ -32,22 +34,16 @@ public class StockController {
     }
 
     @PostMapping("/buy")
-    public String buyStock(@RequestBody TradeRequest tradeRequest) {
-        try {
+    public ResponseEntity<ApiResponse> buyStock(@RequestBody TradeRequest tradeRequest) throws Exception {
             double cost = this.marketService.buyStock(tradeRequest.getUserId(), tradeRequest.getTicker(), tradeRequest.getQuantity());
-            return "Success!! You bought " + tradeRequest.getQuantity() + " shares of " +  tradeRequest.getTicker() + " for " + cost;
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
-        }
+            ApiResponse resposta = new ApiResponse(true, "Success!! You bought " + tradeRequest.getQuantity() + " shares of " +  tradeRequest.getTicker() + " for " + cost, null);
+            return ResponseEntity.ok(resposta);
     }
 
     @PostMapping("/sell")
-    public String sellStock(@RequestBody TradeRequest request) {
-        try {
+    public ResponseEntity<ApiResponse> sellStock(@RequestBody TradeRequest request) throws  Exception {
             double profit = this.marketService.sellStock(request.getUserId(), request.getTicker(), request.getQuantity());
-            return "Success!! You sold " + request.getTicker() + " shares of " + request.getTicker() + " for " + profit;
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
-        }
+            ApiResponse resposta = new ApiResponse(true, "Success!! You sold " + request.getQuantity() + " shares of " + request.getTicker() + " for " + profit, null);
+            return ResponseEntity.ok(resposta);
     }
 }
