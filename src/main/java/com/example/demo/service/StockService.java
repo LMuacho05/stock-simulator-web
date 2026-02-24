@@ -61,13 +61,13 @@ public class StockService {
             JsonObject json = gson.fromJson(response.body(), JsonObject.class);
 
             if(!json.has("Global Quote")){
-                throw new GlobalQuoteNullException();
+                throw new GlobalQuoteNullException("Alpha Vantage did not return the data. Check if you have reached the daily API limit.");
             }
             JsonObject globalQuote =  json.getAsJsonObject("Global Quote");
 
             // If API fails or ticker didn't exist
             if (globalQuote == null || !globalQuote.has("05. price")) {
-                throw new GlobalQuoteNullException();
+                throw new GlobalQuoteNullException("We were unable to find a price for this ticket. It may not exist.");
             }
 
             String priceText = globalQuote.get("05. price").getAsString();

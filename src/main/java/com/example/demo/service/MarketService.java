@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.repository.StockDAO;
+import com.example.demo.exceptions.*;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class MarketService {
 
     public double buyStock(int userID, String ticker, int quantity) throws IOException, InterruptedException {
         if(quantity <= 0){
-            throw new IllegalArgumentException("Quantity must be > 0");
+            throw new QuantityNegativeException("The quantity to be purchased must be greater than zero.");
         }
 
         double actionPrice = stockService.getPrice(ticker);
@@ -34,18 +35,19 @@ public class MarketService {
             stockDAO.recordTransaction(userID, ticker, quantity, "BUY", actionPrice);
             return totalCost;
         } else {
-            throw new IllegalArgumentException("Insufficient funds");
+            // Usamos a TUA exceção
+            throw new InsufficientFundsException("You don't have enough balance. Total cost: $" + totalCost);
         }
     }
 
     public double sellStock(int userID, String ticker, int quantity) throws IOException, InterruptedException {
         if(quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be > 0");
+            throw new QuantityNegativeException("The quantity to be sold must be greater than zero.");
         }
         int quantityOwned = stockDAO.getQuantityOwned(userID, ticker);
 
         if(quantityOwned < quantity) {
-            throw new IllegalArgumentException("Not enough shares to sell");
+            throw new InsufficientSharesException("You don't have enough shares of " + ticker + " to sell.");
         }
 
         double price = stockService.getPrice(ticker);
