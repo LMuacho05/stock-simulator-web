@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.PortfolioItem;
 import com.example.demo.dto.TradeRequest;
+import com.example.demo.dto.TransactionItem;
 import com.example.demo.repository.StockDAO;
 import com.example.demo.service.MarketService;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,13 @@ public class StockController {
     public ResponseEntity<ApiResponse> getPortfolio(@PathVariable int userID) {
         List<PortfolioItem> portfolio = this.stockDAO.getPortfolio(userID);
         ApiResponse answer = new ApiResponse(true, "Portfolio loaded successfully.", portfolio);
+        return ResponseEntity.ok(answer);
+    }
+
+    @GetMapping("/history/{userID}")
+    public ResponseEntity<ApiResponse> getHistory(@PathVariable int userID) {
+        List<TransactionItem> history = this.stockDAO.getHistory(userID);
+        ApiResponse answer = new ApiResponse(true, "History loaded successfully.", history);
         return ResponseEntity.ok(answer);
     }
 

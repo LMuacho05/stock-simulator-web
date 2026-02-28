@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.PortfolioItem;
+import com.example.demo.dto.TransactionItem;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -75,22 +77,22 @@ public class StockDAO {
      * @param userID
      * @return
      */
-    public String getHistory(int userID) {
+    public List<TransactionItem> getHistory(int userID) {
         String sql = "SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC";
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, userID);
 
-        if (rows.isEmpty()) {
-            return "\n(No transactions found)";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n--- TRANSACTION HISTORY ---\n");
+        List<TransactionItem> history = new ArrayList<>();
 
         for (Map<String, Object> row : rows) {
-            sb.append(String.format("[%s] %s %s: %s @ %s\n",
-                    row.get("timestamp"), row.get("type"), row.get("ticker"), row.get("quantity"), row.get("price")));
+            String ticker = (String) row.get("ticker");
+            int quantity = ((Number) row.get("quantity")).intValue();
+            LocalDateTime dataHora = (LocalDateTime) row.get("timestamp");
+            double price = ((Number) row.get("price")).doubleValue();
+            String type = (String) row.get("type");
+            TransactionItem t = new TransactionItem(ticker, quantity, type, price, dataHora);
+            history.add(t);
         }
-        return sb.toString();
+        return history;
     }
 
     /**

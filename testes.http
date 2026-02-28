@@ -10,3 +10,6 @@ Content-Type: application/json
 
 ### Ver Portfolio (GET)
 GET http://localhost:8080/portfolio/1
+
+### Ver Historico (GET)
+GET http://localhost:8080/history/1
