@@ -1,8 +1,11 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.PortfolioItem;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,24 +42,19 @@ public class StockDAO {
      * that is empty
      *
      */
-    public String getPortfolio(int userID) {
+    public List<PortfolioItem> getPortfolio(int userID) {
         String sql = "SELECT ticker, SUM(quantity) as total FROM portfolio WHERE user_id = ? GROUP BY ticker HAVING total > 0";
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, userID);
 
-        if(rows.isEmpty()){
-            return "\n(your portfolio is empty)";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n----YOUR PORTFOLIO----\n");
+        List<PortfolioItem> portfolio = new ArrayList<>();
 
         for (Map<String, Object> row : rows) {
             String ticker = (String) row.get("ticker");
-            Number quantity = (Number) row.get("total");
-            sb.append("* ").append(ticker).append(": ").append(quantity).append(" unites\n");
+            int quantity = ((Number) row.get("total")).intValue();
+            portfolio.add(new PortfolioItem(ticker, quantity));
         }
-        return sb.toString();
+        return portfolio;
     }
 
     /**

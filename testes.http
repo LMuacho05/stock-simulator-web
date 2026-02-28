@@ -7,3 +7,6 @@ Content-Type: application/json
   "ticker": "AAPL",
   "quantity": -5
 }
+
+### Ver Portfolio (GET)
+GET http://localhost:8080/portfolio/1

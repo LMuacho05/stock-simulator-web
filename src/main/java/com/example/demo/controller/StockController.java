@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ApiResponse;
+import com.example.demo.dto.PortfolioItem;
 import com.example.demo.dto.TradeRequest;
 import com.example.demo.repository.StockDAO;
 import com.example.demo.service.MarketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class StockController {
@@ -29,8 +32,10 @@ public class StockController {
     }
 
     @GetMapping("/portfolio/{userID}")
-    public String getPortfolio(@PathVariable int userID) {
-        return this.stockDAO.getPortfolio(userID);
+    public ResponseEntity<ApiResponse> getPortfolio(@PathVariable int userID) {
+        List<PortfolioItem> portfolio = this.stockDAO.getPortfolio(userID);
+        ApiResponse answer = new ApiResponse(true, "Portfolio loaded successfully.", portfolio);
+        return ResponseEntity.ok(answer);
     }
 
     @PostMapping("/buy")
