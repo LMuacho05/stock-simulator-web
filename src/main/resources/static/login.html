@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Stock Simulator</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #2c3e50; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: white; }
+        .login-box { background: #34495e; padding: 40px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); text-align: center; width: 300px; }
+        input { width: 90%; padding: 10px; margin: 15px 0; border: none; border-radius: 5px; font-size: 16px; text-align: center; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #2ecc71; }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h1>📈 Stock Sim</h1>
+    <p>Bem-vindo! Insere o teu ID de utilizador.</p>
+
+    <input type="number" id="user-id-input" placeholder="ID (ex: 1)" min="1">
+
+    <button onclick="fazerLogin()">Entrar na Corretora</button>
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>

@@ -13,3 +13,11 @@ GET http://localhost:8080/portfolio/1
 
 ### Ver Historico (GET)
 GET http://localhost:8080/history/1
+
+### Registar User (POST)
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "username": "TiagoInvestidor"
+}

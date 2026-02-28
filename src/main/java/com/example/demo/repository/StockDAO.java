@@ -133,4 +133,9 @@ public class StockDAO {
         String sql = "INSERT INTO transactions (user_id, ticker, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, ?, NOW())";
         jdbcTemplate.update(sql, userID, ticker, type, quantity, price);
     }
+
+    public void registerUser(String name) {
+        String sql= "INSERT INTO users (username, balance) VALUES ( ?, 10000)";
+        jdbcTemplate.update(sql, name);
+    }
 }

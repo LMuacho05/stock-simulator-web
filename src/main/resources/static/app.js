@@ -1,5 +1,11 @@
 // Assumimos o userID 1 para já, para ser simples
-const USER_ID = 1;
+const USER_ID = localStorage.getItem('sim_user_id');
+
+// Proteção: Se o utilizador tentou abrir o index.html diretamente sem fazer login...
+if (!USER_ID) {
+    // Mandamos o gajo de volta para o login!
+    window.location.href = 'login.html';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarSaldo();
@@ -120,4 +126,9 @@ function trade(action) {
             console.error("Erro na transação:", error);
             alert("Ocorreu um erro ao comunicar com o servidor.");
         });
+}
+
+function fazerLogout() {
+    localStorage.removeItem('sim_user_id');// Delete memory
+    window.location.href = 'login.html';    // Back to login page
 }

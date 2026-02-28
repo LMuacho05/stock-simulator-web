@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
-import com.example.demo.dto.PortfolioItem;
-import com.example.demo.dto.TradeRequest;
-import com.example.demo.dto.TransactionItem;
+import com.example.demo.dto.*;
 import com.example.demo.repository.StockDAO;
 import com.example.demo.service.MarketService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +23,13 @@ public class StockController {
     @GetMapping("/status")
     public String alive() {
             return "KEEP WORKING... ;)\n Good Bye :3";
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse> registerUser(@RequestBody UserRegister user) {
+        this.stockDAO.registerUser(user.getUsername());
+        ApiResponse answer = new ApiResponse(true, "Welcome! New account registered with 10000$ in the wallet.", null);
+        return ResponseEntity.ok(answer);
     }
 
     @GetMapping("/balance/{userID}")
