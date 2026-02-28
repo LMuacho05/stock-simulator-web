@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Simulator Web</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; }
+        .balance-box { background: #e0f7fa; padding: 15px; border-radius: 5px; font-size: 1.2em; text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #00796b; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📈 Stock Simulator</h1>
+
+    <div class="balance-box">
+        Saldo Atual: $<span id="balance-display">A carregar...</span>
+    </div>
+
+    <div style="background: #e8eaf6; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+        <h3>Fazer uma Ordem na Bolsa</h3>
+
+        <input type="text" id="ticker-input" placeholder="Ex: AAPL" style="padding: 8px; width: 25%; margin-right: 5px;">
+        <input type="number" id="quantity-input" placeholder="Qtd" style="padding: 8px; width: 20%; margin-right: 10px;">
+
+        <button onclick="trade('buy')" style="padding: 8px 15px; background: #2e7d32; color: white; border: none; cursor: pointer; border-radius: 3px;">Comprar</button>
+        <button onclick="trade('sell')" style="padding: 8px 15px; background: #c62828; color: white; border: none; cursor: pointer; border-radius: 3px;">Vender</button>
+    </div>
+
+    <h2>O Meu Portfólio</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Ação (Ticker)</th>
+            <th>Quantidade</th>
+        </tr>
+        </thead>
+        <tbody id="portfolio-body">
+        <tr>
+            <td colspan="2" style="text-align: center;">A carregar o teu portfólio...</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top: 30px;">📜 Histórico de Transações</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>Ação</th>
+            <th>Qtd</th>
+            <th>Preço</th>
+        </tr>
+        </thead>
+        <tbody id="history-body">
+        <tr>
+            <td colspan="5" style="text-align: center;">A carregar o teu histórico...</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
