@@ -61,4 +61,8 @@ public class MarketService {
 
         return profit;
     }
+
+    public double getPrice(String ticker) throws IOException, InterruptedException {
+        return this.stockService.getPrice(ticker);
+    }
 }

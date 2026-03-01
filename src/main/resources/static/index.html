@@ -18,6 +18,18 @@
 <body>
 
 <div class="container">
+
+    <div class="search-box" style="background: #ecf0f1; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; color: #2c3e50;">
+        <h2>🔍 Consultar Mercado</h2>
+
+        <input type="text" id="search-ticker" placeholder="Símbolo (ex: AAPL)" style="padding: 10px; width: 50%; font-size: 16px; text-transform: uppercase;">
+
+        <button onclick="searchShare()" style="padding: 10px 20px; font-size: 16px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Ver Preço</button>
+
+        <div id="search-result" style="margin-top: 15px; font-size: 18px; display: none;">
+        </div>
+    </div>
+
     <h1>📈 Stock Simulator</h1>
     <button onclick="fazerLogout()" style="float: right; background: #c62828; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Sair</button>
     <div class="balance-box">

@@ -1,9 +1,6 @@
-// Assumimos o userID 1 para já, para ser simples
 const USER_ID = localStorage.getItem('sim_user_id');
 
-// Proteção: Se o utilizador tentou abrir o index.html diretamente sem fazer login...
 if (!USER_ID) {
-    // Mandamos o gajo de volta para o login!
     window.location.href = 'login.html';
 }
 
@@ -131,4 +128,33 @@ function trade(action) {
 function fazerLogout() {
     localStorage.removeItem('sim_user_id');// Delete memory
     window.location.href = 'login.html';    // Back to login page
+}
+
+function searchShare() {
+    const ticker = document.getElementById('search-ticker').value.toUpperCase();
+    const resultDiv = document.getElementById('search-result');
+
+    if(!ticker) {
+        alert("Please insert a valid ticker.");
+    }
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = "A consultar Wall Street por " + ticker + "... ⏳";
+
+    fetch(`/price/${ticker}`)
+        .then(response => response.json())
+        .then(apiResponse => {
+            if(apiResponse.success){
+                const precoFormatado = apiResponse.data.toFixed(2);
+                resultDiv.innerHTML = `✅ <strong>${ticker}</strong> is worth: <span style="color: #27ae60; font-size: 24px; font-weight: bold;">$${precoFormatado}</span>`;
+                const buyInput = document.getElementById('ticker-input');
+                if(buyInput) buyInput.value = ticker;
+            } else {
+                resultDiv.innerHTML = `❌ Ups! We didn't found share <strong>${ticker}</strong>.`;
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            resultDiv.innerHTML = "❌ Error to connect server.";
+        })
 }

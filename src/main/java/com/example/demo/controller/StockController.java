@@ -5,6 +5,7 @@ import com.example.demo.repository.StockDAO;
 import com.example.demo.service.MarketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,18 @@ public class StockController {
             double cost = this.marketService.buyStock(tradeRequest.getUserId(), tradeRequest.getTicker(), tradeRequest.getQuantity());
             ApiResponse resposta = new ApiResponse(true, "Success!! You bought " + tradeRequest.getQuantity() + " shares of " +  tradeRequest.getTicker() + " for " + cost, null);
             return ResponseEntity.ok(resposta);
+    }
+
+    @GetMapping("/price/{ticker}")
+    public ResponseEntity<ApiResponse> getPrice(@PathVariable String ticker) throws Exception {
+        try {
+            double currentPrice = this.marketService.getPrice(ticker);
+            ApiResponse answer = new  ApiResponse(true, "Price loaded successfully.", currentPrice);
+            return ResponseEntity.ok(answer);
+        } catch (Exception e) {
+            ApiResponse error = new ApiResponse(false, "Could not find price for " + ticker, null);
+            return ResponseEntity.ok(error);
+        }
     }
 
     @PostMapping("/sell")
