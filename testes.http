@@ -19,5 +19,5 @@ POST http://localhost:8080/register
 Content-Type: application/json
 
 {
-    "username": "TiagoInvestidor"
+    "username": "DanielaLawyer"
 }
