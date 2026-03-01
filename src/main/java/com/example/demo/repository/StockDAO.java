@@ -4,7 +4,10 @@ import com.example.demo.dto.PortfolioItem;
 import com.example.demo.dto.TransactionItem;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -134,8 +137,17 @@ public class StockDAO {
         jdbcTemplate.update(sql, userID, ticker, type, quantity, price);
     }
 
-    public void registerUser(String name) {
-        String sql= "INSERT INTO users (username, balance) VALUES ( ?, 10000)";
-        jdbcTemplate.update(sql, name);
+    public int registerUser(String name) {
+        String sql = "INSERT INTO users (username, balance) VALUES (?, 10000)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, name);
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().intValue();
     }
 }

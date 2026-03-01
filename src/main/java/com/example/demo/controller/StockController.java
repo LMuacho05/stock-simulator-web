@@ -27,8 +27,8 @@ public class StockController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody UserRegister user) {
-        this.stockDAO.registerUser(user.getUsername());
-        ApiResponse answer = new ApiResponse(true, "Welcome! New account registered with 10000$ in the wallet.", null);
+        int newID = this.stockDAO.registerUser(user.getUsername());
+        ApiResponse answer = new ApiResponse(true, "Welcome! New account registered with 10000$ in the wallet. ID: " + newID, newID);
         return ResponseEntity.ok(answer);
     }
 
