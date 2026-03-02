@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarSaldo();
     carregarPortfolio();
     loadHistory();
+    updateSearchHistory();
 });
 
 function carregarSaldo() {
@@ -136,6 +137,7 @@ function searchShare() {
 
     if(!ticker) {
         alert("Please insert a valid ticker.");
+        return;
     }
 
     resultDiv.style.display = 'block';
@@ -149,6 +151,21 @@ function searchShare() {
                 resultDiv.innerHTML = `✅ <strong>${ticker}</strong> is worth: <span style="color: #27ae60; font-size: 24px; font-weight: bold;">$${precoFormatado}</span>`;
                 const buyInput = document.getElementById('ticker-input');
                 if(buyInput) buyInput.value = ticker;
+
+                let historico;
+                const n = localStorage.getItem(`historico_pesquisas_${USER_ID}`);
+
+                if(n != null) {
+                    historico = JSON.parse(n);
+                } else {
+                    historico = [];
+                }
+                if(!historico.includes(ticker)) {
+                    historico.push(ticker);
+                    localStorage.setItem(`historico_pesquisas_${USER_ID}`, JSON.stringify(historico));
+                }
+
+                updateSearchHistory();
             } else {
                 resultDiv.innerHTML = `❌ Ups! We didn't found share <strong>${ticker}</strong>.`;
             }
@@ -157,4 +174,22 @@ function searchShare() {
             console.error(error);
             resultDiv.innerHTML = "❌ Error to connect server.";
         })
+}
+
+function updateSearchHistory() {
+
+    const share = document.getElementById('recent-searches');
+
+    const n = localStorage.getItem(`historico_pesquisas_${USER_ID}`);
+
+    if (n == null) {
+        return;
+    }
+
+    let historico = JSON.parse(n);
+    share.innerHTML = '<span style="font-size: 14px; color: #7f8c8d;">Vistos Recentemente: </span>';
+
+    historico.forEach(function(ticker) {
+        share.innerHTML += `<button onclick="document.getElementById('search-ticker').value='${ticker}'; searchShare();" style="margin: 5px; padding: 5px 10px; border-radius: 15px; cursor: pointer; background: #ecf0f1; border: 1px solid #bdc3c7;">${ticker}</button>`;
+    });
 }
